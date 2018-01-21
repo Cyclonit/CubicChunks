@@ -90,7 +90,7 @@ val sourceSets = the<JavaPluginConvention>().sourceSets
 val mainSourceSet = sourceSets["main"]!!
 
 version = getModVersion()
-group = "cubichunks"
+group = "io.github.opencubicchunks"
 (mainSourceSet as ExtensionAware).extra["refMap"] = "cubicchunks.mixins.refmap.json"
 
 idea {
@@ -226,15 +226,15 @@ uploadArchives.apply {
                     withGroovyBuilder {
 
                         "name"(projectName)
-                        "artifactId"(base.archivesBaseName)
+                        "artifactId"(base.archivesBaseName.toLowerCase())
                         "packaging"("jar")
-                        "url"("https://github.com/OpenCubicChunks/RegionLib")
+                        "url"("https://github.com/OpenCubicChunks/CubicChunks")
                         "description"("Unlimited world height mod for Minecraft")
 
 
                         "scm" {
-                            "connection"("scm:git:git://github.com/OpenCubicChunks/RegionLib.git")
-                            "developerConnection"("scm:git:ssh://git@github.com:OpenCubicChunks/RegionLib.git")
+                            "connection"("scm:git:git://github.com/OpenCubicChunks/CubicChunks.git")
+                            "developerConnection"("scm:git:ssh://git@github.com:OpenCubicChunks/CubicChunks.git")
                             "url"("https://github.com/OpenCubicChunks/RegionLib")
                         }
 
@@ -251,15 +251,12 @@ uploadArchives.apply {
                                 "id"("Barteks2x")
                                 "name"("Barteks2x")
                             }
-                            "developer" {
-                                "id"("xcube16")
-                                "name"("xcube16")
-                            }
+                            // TODO: add more developers
                         }
 
                         "issueManagement" {
                             "system"("github")
-                            "url"("https://github.com/OpenCubicChunks/RegionLib/issues")
+                            "url"("https://github.com/OpenCubicChunks/CubicChunks/issues")
                         }
                     }
                 }
@@ -437,7 +434,8 @@ fun getModVersion(): String {
         val git = Grgit.open()
         val describe = DescribeOp(git.repository).call()
         val branch = getGitBranch(git)
-        getModVersion(describe, branch);
+        val snapshotSuffix = if (project.hasProperty("doRelease")) "" else "-SNAPSHOT"
+        getModVersion(describe, branch) + snapshotSuffix;
     } catch(ex: RuntimeException) {
         logger.error("Unknown error when accessing git repository! Are you sure the git repository exists?", ex)
         String.format("%s-%s.%s.%s%s%s", getMcVersion(), "9999", "9999", "9999", "", "NOVERSION")

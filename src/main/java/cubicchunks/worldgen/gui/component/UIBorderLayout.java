@@ -27,7 +27,7 @@ import cubicchunks.worldgen.gui.ExtraGui;
 import net.malisis.core.client.gui.Anchor;
 import net.malisis.core.client.gui.component.UIComponent;
 
-public class UIBorderLayout extends UILayout<UIBorderLayout, UIBorderLayout.Border> {
+public class UIBorderLayout extends UIStandardLayout<UIBorderLayout, UIBorderLayout.Border> {
 
     private int currentBorder = 0;
 
@@ -52,7 +52,7 @@ public class UIBorderLayout extends UILayout<UIBorderLayout, UIBorderLayout.Bord
     }
 
     @Override protected boolean isLayoutChanged() {
-        return true; // inexpensive so always update
+        return false;
     }
 
     @Override protected void onAdd(UIComponent<?> comp, Border at) {
